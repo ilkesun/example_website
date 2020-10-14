@@ -1,2 +1,3 @@
-# example_website
-Not my first website.
+# About
+
+This is a website of mine. 
