@@ -20,7 +20,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     url = "/education/"
 [[menu.main]]
     name = "PS2"
-    url = "/content/post/ProblemSet2-template2.html/"
+    url = "/ProblemSet2-template2.html/"
 
 [params]
     description = "A website built through Hugo and blogdown."
