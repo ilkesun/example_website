@@ -8,6 +8,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
+    post = "/content/post/ProblemSet2-template2.html"
 
 [[menu.main]]
     name = "About"
