@@ -1,6 +1,6 @@
 ---
-title: Determining the effect of the Income Bracket of a Canadian Citizen by Naturalization
-  on that Individual's Probability of Having Recieved a Bachelor's Degree
+title: "Determining the effect of the Income Bracket of a Canadian Citizen by Naturalization
+  on that Individual's Probability of Having Recieved a Bachelor's Degree"
 author: "Ilke Sun"
 date: "19th of October, 2020"
 output:
@@ -289,4 +289,4 @@ Government of Canada, Statistics Canada. “Immigration and Ethnocultural Divers
 
 Paquette, Jerry. “Educational Attainment and Employment Income: Incentives and Disincentives for Staying in School.” CANADIAN JOURNAL OF EDUCATION, vol. 2, no. 24, 1999, pp. 151–168. 
 
-
+AAAAA
