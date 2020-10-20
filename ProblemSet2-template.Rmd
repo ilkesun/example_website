@@ -1,0 +1,124 @@
+---
+title: "Title of Your Report"
+author: "Ilke Sun"
+date: "19th of October, 2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(dplyr)
+library(blogdown)
+library(ggplot2)
+library(survey)
+gss <- read.csv("gss.csv")
+```
+
+## Educational and Economical Determinants of Being an Canadian by Naturalization
+
+# Ilke Sun
+# 19th of October, 2020
+
+## Abstract
+
+Here is where you give a brief (one paragraph overview of your entire paper). This should include some background/introduction, some methodology, results and conclusions.
+
+## Introduction
+
+Canada is often referred as land of immigrants because of the number of immigrants it welcomes each year. Foreign-born people come to Canada for various reasons including job opportunities and better education, often times with hopes of becoming a Canadian citizen. GSS Family Data (2017) includes various characteristics about Canadians. Moreover, most respondents in this data set is either a citizen by birth or citizen by naturalization. People who are citizen by birth receive their Canadian citizenship when they are born, whereas the people who are citizen by naturalization receive their citizenship after applying for the immigration process.
+
+Statistics Canada indicate that immigrants make up almost 22% of the Canadian population in 2016 Census. Although, people immigrate due to various reasons, about 60% of the immigrants to Canada were admitted under the economic category. Meaning that their prior goal is to improve their welfare by being involved in higher education and/or job opportunities in Canada. This paper aims to determine what economical and educational characteristics of Canadian citizens indicate whether a person was a citizen by birth or by naturalization. 
+
+## Data
+
+In order to determine the affects of characteristics we use General Social Survey on Family done in 2017. There are 81 variables and over 20000 observations in this original data set. Not all variables presented in the data set are useful considering this paper's concern is understanding the underlying relationship between economical variables and being Canadian by birth or by naturalization. Thus, a subset of the original data set is used in order to get more accurate and sensible results.
+
+The 2017 GSS Data heavily relies on the use of categorical variables, some of which are income, education, birth region. There are a few numeric variables and the only continuous variables are the ones that are related to respondents age. Having continuous variables for income, hours worked and year arrived Canada, for example, might helped this paper by enabling variety of analysis options  whereas the abundance of categorical variable limits some approaches that could have been utilized.
+
+```{r, results = F}
+data_set <- gss %>% 
+  mutate(born_outside_canada = ifelse(place_birth_canada == "Born in Canada",
+                                 0, 1)) %>% 
+  filter(worked_last_week != "Don't know" & 
+           worked_last_week != is.na(worked_last_week)) %>% 
+  filter(average_hours_worked != is.na(average_hours_worked)) %>% 
+  filter(average_hours_worked != "Don't know") %>% 
+  filter(education != is.na(education)) %>% 
+  filter(citizenship_status != is.na(citizenship_status)) %>%
+  select(born_outside_canada, age, sex, education, average_hours_worked, worked_last_week,
+         income_family, income_respondent)
+
+str(data_set)
+summary(data_set)
+
+data_set$born_outside_canada <- as.factor(data_set$born_outside_canada)
+data_set$sex <- as.factor(data_set$sex)
+data_set$education <- as.factor(data_set$education)
+data_set$average_hours_worked <- as.factor(data_set$average_hours_worked)
+data_set$worked_last_week <- as.factor(data_set$worked_last_week)
+data_set$income_family <- as.factor(data_set$income_family)
+data_set$income_respondent <- as.factor(data_set$income_respondent)
+
+unique(data_set$education)
+unique(data_set$average_hours_worked)
+unique(data_set$worked_last_week)
+unique(data_set$income_family)
+unique(data_set$income_respondent)
+```
+
+A subset of the GSS data is used for this paper, since we are interested in economical variables, number of variables fall to 8 in this subset. In addition, after removing not available data for the variables of interest, we are left with 12121 observations in this data set. Variables that are included in this study are born outside Canada, age, sex, education level, average hours worked, worked last week, income level of family and income level of respondent. Age, sex and education level is used as control variables since higher age, being male and higher education level is often associated with higher income. 
+
+Age is discrete variables and age varies between 15 and 80, it was reported to the one decimal point considering the month of respondent's birth. Whereas sex, born outside Canada, and worked last week are dummy variables. Lastly, education, average hours worked, income family and income respondent are categorical variables. Education has seven categories ranging from less than high school diploma to degree above bachelor's. Average hours worked has 5 categories and ranges from 0 to 50.1 and more. Moreover, both income - of family and of respondent - have 6 categories and ranges from less than 25,000 dollars to 125,000 dollars and more.
+
+## Model
+
+```{r, results = F}
+data_set$education = relevel(data_set$education, ref = "Trade certificate or diploma")
+data_set$average_hours_worked = relevel(data_set$average_hours_worked, ref = "0 hour")
+data_set$income_family = relevel(data_set$income_family, ref = "$125,000 and more")
+data_set$income_respondent = relevel(data_set$income_respondent, ref = "$125,000 and more")
+
+
+logistic1 <- glm(born_outside_canada ~., data = data_set, family = "binomial")
+logistic2 <- glm(born_outside_canada ~ age + sex + education +
+                   average_hours_worked + worked_last_week + income_respondent,
+                 data = data_set, family = "binomial")
+logistic3 <- glm(born_outside_canada ~ education + average_hours_worked + 
+                   worked_last_week + income_respondent, data = data_set,
+                 family = "binomial")
+logistic4 <- glm(born_outside_canada ~ age + sex + education + 
+                      worked_last_week + income_respondent,
+                    data = data_set, family = "binomial")
+
+summary(logistic1)
+summary(logistic2)
+summary(logistic3)
+summary(logistic4)
+```
+
+Introduce the selected model here. It is expected that you will use some mathematical notation here. If you do please ensure that all notation is explained. You may also want to discuss any special (hypothetical) cases of your model here, as well as any caveats.  
+
+## Results
+
+Here you will include all results. This includes descriptive statistics, graphs, figures, tables, and model results. Please ensure that everything is well formatted and in a report style. You must also provide an explanation of the results in this section. You can overflow to an Appendix if needed. 
+
+Please ensure that everything is well labelled. So if you have multiple histograms and plots, calling them Figure 1, 2, 3, etc. and referencing them as Figure 1, Figure 2, etc. in your report will be expected. The reader should not get lost in a sea of information. Make sure to have the results be clean, well formatted and digestible.
+
+## Discussion
+
+Here you will discuss conclusions drawn from the results and comment on how it relates to the original goal of the study (which was specified in the Introduction).
+
+# Weaknesses
+
+Here we discuss weaknesses of the study, data, analysis, etc. You can also discuss areas for improvement.
+
+# Next Steps
+
+Here you discuss subsequent work to be done after this report. This can include next steps in terms of statistical analysis (perhaps there is a more efficient algorithm available, or perhaps there is a caveat in the data that would allow for some new technique). Future steps should also be specified in terms of the study setting (eg. including a follow-up survey on something, or a subsequent study that would complement the conclusions of your report).
+
+
+## References
+
+
+
