@@ -1,8 +1,11 @@
 ---
-title: "Determining the effect of the Income Bracket of a Canadian Citizen by Naturalization on that Individual's Probability of Having Recieved a Bachelor's Degree"
+title: Determining the effect of the Income Bracket of a Canadian Citizen by Naturalization
+  on that Individual's Probability of Having Recieved a Bachelor's Degree
 author: "Ilke Sun"
 date: "19th of October, 2020"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -12,7 +15,6 @@ library(dplyr)
 library(blogdown)
 library(ggplot2)
 library(survey)
-gss <- read.csv("gss.csv")
 ```
 
 ## Determining the effect of the Income Bracket of a Canadian Citizen by Naturalization on that Individual's Probability of Having Recieved a Bachelor's Degree
@@ -34,6 +36,8 @@ In the data set there are total of four variables regarding individual's and his
 
 ## Data
 ```{r, results= F}
+gss <- read.csv("gss.csv")
+
 immigrants <- gss %>% 
   filter(education != is.na(education)) %>% 
   filter(average_hours_worked != is.na(average_hours_worked)) %>% 
