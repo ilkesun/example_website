@@ -1,8 +1,7 @@
 ---
-title: Determining the effect of the Income Bracket of a Canadian Citizen by Naturalization
-  on that Individual's Probability of Having Recieved a Bachelor's Degree
+title: "Determining the effect of the Income Bracket of a Canadian Citizen by Naturalization on that Individual's Probability of Having Recieved a Bachelor's Degree"
 author: "Ilke Sun"
-date: "19th of October, 2020"
+date: "2020-10-09"
 output:
   html_document:
     df_print: paged
